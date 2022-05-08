@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ApiManager {
-  static const apiAddress = 'http://192.168.100.100:5000';
+  static const apiAddress = 'http://192.168.1.169:5000';
   static const loginAPIURL = apiAddress + '/api/users/login';
   static const registerAPIUrl = apiAddress + '/api/users/add';
   static const getUserAPIUrl = apiAddress + '/api/users/find';

@@ -99,8 +99,8 @@ class _ReclamationScreenState extends State<ReclamationScreen> {
                       color: Colors.red,
                       text: "Reclamation",
                       textColor: Colors.white,
-                      press: () {
-                        ApiManager.createReclamation(
+                      press: (context)async {
+                        await ApiManager.createReclamation(
                             _nameController.text,
                             _emailController.text,
                             _addressController.text,
