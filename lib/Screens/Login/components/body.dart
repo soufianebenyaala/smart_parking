@@ -62,7 +62,7 @@ class _BodyState extends State<Body> {
                   width: size.width * 0.8,
                   text: "LOGIN",
                   press: (context) async {
-                    //if ( _formKey.currentState!.validate()) {
+                    if ( _formKey.currentState!.validate()) {
                       //do what we have to do
 
                       await UserManager.performUserLogin(email, password)
@@ -82,9 +82,9 @@ class _BodyState extends State<Body> {
                                   ),
                                 )
                               });
-                   // }else{
-                    //  return;
-                   // }
+                    }else{
+                      return;
+                    }
                   }),
               SizedBox(height: size.height * 0.03),
               AlreadyHaveAnAccountCheck(

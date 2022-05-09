@@ -21,9 +21,12 @@ class Body extends StatelessWidget {
     String phone = '';
     String address = '';
     Size size = MediaQuery.of(context).size;
+    final _formKey = GlobalKey<FormState>();
     return Background(
       child: SingleChildScrollView(
-        child: Column(
+        child: Form(
+          key: _formKey,
+          child:Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
@@ -73,6 +76,7 @@ class Body extends StatelessWidget {
               width: size.width * 0.8,
               text: "SIGNUP",
               press: (context) async {
+                if ( _formKey.currentState!.validate()) {
                 await UserManager.performUserSignup(
                         name, email, address, phone, password)
                     .then((value) {
@@ -85,6 +89,9 @@ class Body extends StatelessWidget {
                     ),
                   );
                 });
+                }else{
+                      return;
+                    }
               },
             ),
             SizedBox(height: size.height * 0.03),
@@ -102,7 +109,7 @@ class Body extends StatelessWidget {
                 );
               },
             ),
-            OrDivider(),
+            /*OrDivider(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -119,10 +126,10 @@ class Body extends StatelessWidget {
                   press: () {},
                 ),
               ],
-            )
+            )*/
           ],
         ),
       ),
-    );
+    ));
   }
 }

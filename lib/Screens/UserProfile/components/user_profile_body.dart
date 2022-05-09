@@ -8,6 +8,8 @@ import 'package:smartparkingv2/models/user.dart';
 import 'package:smartparkingv2/services/user_manager.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../validation/validation.dart';
+
 class Body extends StatefulWidget {
   User user;
   Body({required this.user});
@@ -151,12 +153,14 @@ class _BodyState extends State<Body> {
       context: context,
       // ignore: missing_return
       builder: (context) {
+        final _formKey = GlobalKey<FormState>();
         return AlertDialog(
           scrollable: true,
           title: Text("Edit Profile"),
           actions: [
             TextButton(
                 onPressed: () {
+                  if ( _formKey.currentState!.validate()) {
                   UserManager.UserUpdate(_nameController.text,
                           _addressController.text, _phoneController.text)
                       .then((value) {
@@ -171,26 +175,33 @@ class _BodyState extends State<Body> {
                       ),
                     );
                   });
+                  }else{
+                      return;
+                    }
                 },
                 child: Text("Edit"))
           ],
           content: Form(
+            key: _formKey,
             child: Column(
               children: [
                 const SizedBox(height: 24),
                 TextFieldWidget(
                   label: 'Name',
                   controller: _nameController,
+                  validator: (value) =>Validation.validateName(value)
                 ),
                 const SizedBox(height: 24),
                 TextFieldWidget(
                   label: 'Phone',
                   controller: _addressController,
+                  validator: (value) =>Validation.validateName(value)
                 ),
                 const SizedBox(height: 24),
                 TextFieldWidget(
                   label: 'Address',
                   controller: _phoneController,
+                  validator: (value) =>Validation.validateName(value)
                 ),
               ],
             ),

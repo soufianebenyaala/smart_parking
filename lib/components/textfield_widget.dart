@@ -7,12 +7,15 @@ class TextFieldWidget extends StatefulWidget {
   final String? text;
   final ValueChanged<String>? onChanged;
 
+  final  validator;
+
   TextFieldWidget({
     this.maxLines = 1,
     required this.controller,
     required this.label,
     this.text,
     this.onChanged,
+    required this.validator,
   });
 
   @override
@@ -45,7 +48,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           const SizedBox(height: 8),
-          TextField(
+          TextFormField(
             controller: widget.controller,
             decoration: InputDecoration(
               border: OutlineInputBorder(
@@ -53,6 +56,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
               ),
             ),
             maxLines: widget.maxLines,
+            validator:widget.validator
           ),
         ],
       );

@@ -33,6 +33,7 @@ class _ReclamationScreenState extends State<ReclamationScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final _formKey = GlobalKey<FormState>();
     final double height = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: MainAppBar(),
@@ -41,7 +42,9 @@ class _ReclamationScreenState extends State<ReclamationScreen> {
             child: Container(
                 height: size.height * 0.85,
                 padding: const EdgeInsets.only(left: 25, right: 25),
-                child: Column(
+                child: Form(
+          key: _formKey,
+          child:Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -100,16 +103,19 @@ class _ReclamationScreenState extends State<ReclamationScreen> {
                       text: "Reclamation",
                       textColor: Colors.white,
                       press: (context)async {
+                        if ( _formKey.currentState!.validate()) {
                         await ApiManager.createReclamation(
                             _nameController.text,
                             _emailController.text,
                             _addressController.text,
                             _descriptionController.text,
                             _statusController.text).then((value) => Navigator.pop(context));
-                        
+                        }else{
+                      return;
+                    }
                       },
                     )
                   ],
-                ))));
+                )))));
   }
 }

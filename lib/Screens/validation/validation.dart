@@ -15,7 +15,7 @@ class Validation {
 
   static String? validateName(String? value) {
     if (value!.isEmpty) {
-      return 'Name is required.';
+      return 'This field must not be empty.';
     }
 
   }

@@ -18,7 +18,7 @@ class FormsReservationScreen extends StatefulWidget {
 }
 
 class _FormsReservationScreenState extends State<FormsReservationScreen> {
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   //key for form
   TextEditingController _positionController = TextEditingController();
   TextEditingController _datetimeController = TextEditingController();
@@ -36,7 +36,7 @@ class _FormsReservationScreenState extends State<FormsReservationScreen> {
       body: Container(
         padding: const EdgeInsets.only(left: 25, right: 25),
         child: Form(
-          key: formKey, //key for form
+          key: _formKey, //key for form
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -54,9 +54,8 @@ class _FormsReservationScreenState extends State<FormsReservationScreen> {
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: "Enter your Postion"),
-                validator: (value) {
-                  Validation.validateName(value);
-                },
+                validator: (value) => Validation.validateName(value),
+                keyboardType: TextInputType.number,
                 controller: _positionController,
               ),
               BasicDateTimeField(datetimeController: _datetimeController),
@@ -66,17 +65,22 @@ class _FormsReservationScreenState extends State<FormsReservationScreen> {
                 text: "Reserve maintenant",
                 textColor: Colors.white, //createResarvation
                 press: (context) async {
-                  await ApiManager.createResarvation(
-                          _datetimeController.text,
-                          _positionController.text,
-                          UserManager.currentUser!.id,
-                          widget.parking.id)
-                      .then((value) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ParkingLayout()),
-                    );
-                  });
+                  if (_formKey.currentState!.validate()) {
+                    await ApiManager.createResarvation(
+                            _datetimeController.text,
+                            _positionController.text,
+                            UserManager.currentUser!.id,
+                            widget.parking.id)
+                        .then((value) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ParkingLayout()),
+                      );
+                    });
+                  } else {
+                    return;
+                  }
                 },
               ),
             ],

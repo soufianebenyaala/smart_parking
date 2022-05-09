@@ -41,11 +41,11 @@ class ParkingDetailsScreen extends StatelessWidget {
                   children: [
                     _titleSection(parking),
                     SizedBox(
-                      height: 40,
+                      height: size.height*0.03,
                     ),
                     _infoSection(parking),
                     SizedBox(
-                      height: 30,
+                      height: size.height*0.03,
                     ),
                     RoundedButton(
                       width: size.width * 0.8,

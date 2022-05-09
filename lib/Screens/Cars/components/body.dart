@@ -9,6 +9,8 @@ import 'package:smartparkingv2/services/api_manger.dart';
 import 'package:smartparkingv2/services/shared_prefes_manager.dart';
 import 'package:smartparkingv2/services/user_manager.dart';
 
+import '../../validation/validation.dart';
+
 class CarsScreenBody extends StatelessWidget {
   var cars;
   CarsScreenBody({this.cars});
@@ -69,10 +71,12 @@ class CarsScreenBody extends StatelessWidget {
         context: context,
         // ignore: missing_return
         builder: (context) { 
+          final _formKey = GlobalKey<FormState>();
         return  AlertDialog(
           scrollable: true,
           title: Text("Add"),
           actions: [TextButton(onPressed: () {
+             if ( _formKey.currentState!.validate()) {
             ApiManager.addCar(
                     _typeController.text, _numbreController.text, _descriptionController.text);
                 print("addcar");
@@ -84,25 +88,35 @@ class CarsScreenBody extends StatelessWidget {
                     },
                   ),
                 );
+                }else{
+                      return;
+                    }
           }, child: Text("Add Car"))],
           content: Form(
+            key: _formKey,
             child: Column(
               children: [
                 const SizedBox(height: 24),
                 TextFieldWidget(
                   label: 'Type',
                   controller: _typeController,
+                  validator: (value) =>
+                Validation.validateName(value)
                 ),
                 const SizedBox(height: 24),
                 TextFieldWidget(
                   label: 'Numbre',
                   controller: _numbreController,
+                  validator: (value) =>
+                Validation.validateName(value)
                 ),
                 const SizedBox(height: 24),
                 TextFieldWidget(
                   label: 'Description',
                   maxLines: 5,
                   controller: _descriptionController,
+                  validator: (value) =>Validation.validateName(value)
+                
                 ),
               ],
             ),

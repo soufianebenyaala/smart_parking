@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:smartparkingv2/constants.dart';
 import 'package:smartparkingv2/models/car.dart';
 
+import '../../validation/validation.dart';
+
 class CarCard extends StatefulWidget {
   Car car;
   CarCard({required this.car});
@@ -192,6 +194,7 @@ class _CarCardState extends State<CarCard> {
       context: context,
       // ignore: missing_return
       builder: (context) {
+        final _formKey = GlobalKey<FormState>();
         return AlertDialog(
           scrollable: true,
           title: Text("Edit Profile"),
@@ -201,6 +204,7 @@ class _CarCardState extends State<CarCard> {
                 borderRadius: 30,
                 text: "Edit",
                 press: (context) async {
+                  if ( _formKey.currentState!.validate()) {
                   await ApiManager.carUpdate(
                           _numberController.text,
                           _descriptionController.text,
@@ -216,6 +220,9 @@ class _CarCardState extends State<CarCard> {
                       ),
                     );
                   });
+                  }else{
+                      return;
+                    }
                 },
                 color: kPrimaryColor,
                 textColor: Colors.white,
@@ -223,22 +230,26 @@ class _CarCardState extends State<CarCard> {
             )
           ],
           content: Form(
+            key: _formKey,
             child: Column(
               children: [
                 const SizedBox(height: 24),
                 TextFieldWidget(
                   label: 'type',
                   controller: _typeController,
+                  validator: (value) =>Validation.validateName(value)
                 ),
                 const SizedBox(height: 24),
                 TextFieldWidget(
                   label: 'number',
                   controller: _numberController,
+                  validator: (value) =>Validation.validateName(value)
                 ),
                 const SizedBox(height: 24),
                 TextFieldWidget(
                   label: 'description',
                   controller: _descriptionController,
+                  validator: (value) =>Validation.validateName(value)
                 ),
               ],
             ),

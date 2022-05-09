@@ -139,7 +139,7 @@ class ApiManager {
   }
 
   static Future<String> carUpdate(
-      String number, String description, String type, String id) async {
+      String number, String description, String type,  id) async {
     try {
       final uri = Uri.parse(ApiManager.carAPIURL + "/" + id);
       final headers = {'Content-Type': 'application/json'};
